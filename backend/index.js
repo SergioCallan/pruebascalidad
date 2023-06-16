@@ -2,6 +2,9 @@ const mysql= require("mysql")
 const express= require('express');
 const myconnection= require("express-myconnection")
 const cors= require("cors")
+const dotenv = require("dotenv")
+
+dotenv.config({path: './config.env'});
 
 const routes= require("./routes")
 
@@ -21,7 +24,7 @@ const connection ={
     host: 'localhost',
     user: 'root',
     port: 3306,
-    password: 'admin123',
+    password: process.env.DB_PASS,
     database: 'flyeasy'
   }
 
