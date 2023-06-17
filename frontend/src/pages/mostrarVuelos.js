@@ -41,7 +41,6 @@ export default function MostrarVuelos(){
         }catch(error){
             console.error('Error al enviar la solicitud:', error);
         }
-        
     }
     
     return (
