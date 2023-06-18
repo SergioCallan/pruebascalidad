@@ -19,6 +19,7 @@ class MenuAdmin extends Component{
                         </div>
                         <div className="estadisticas">
                             <h3>Para observar información relevante como ganancias por vuelo y reservas realizadas, haga clic aquí</h3>
+                            <Link to="/registrovuelos">Mostrar Estadisticas</Link>
                         </div>
                     </div>
                 </main>

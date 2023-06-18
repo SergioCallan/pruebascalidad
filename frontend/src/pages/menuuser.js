@@ -15,7 +15,7 @@ class MenuUser extends Component{
                         </div>
                         <div className="reservas">
                                 <h3> Si quieres observar, confirmar o modificar tus reservas, haz click aquí</h3>
-                            <Link to="/mostrarvuelos">Ver historial de reservas</Link>
+                            <Link to="/reservas">Ver historial de reservas</Link>
                         </div>
                     </div>
                 </main>
