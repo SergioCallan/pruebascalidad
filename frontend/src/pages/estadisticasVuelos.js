@@ -23,9 +23,14 @@ export default function EstadisticasVuelos(){
 
     const stats= async (e) =>{
         e.preventDefault();
+        const index= vuelos.findIndex(i=>i.aerolinea==aerolinea)
+        const aerolineaA= vuelos[index].aerolinea
+        let ganancias=0;
         try{
-            var ganancias=0;
-            navigate("/menuadmin")
+            if(aerolinea===aerolineaA){
+                ganancias+= vuelos[index].precio
+            }
+            
         }catch(error){
             console.error('Error al enviar la solicitud:', error);
         }
@@ -39,6 +44,8 @@ export default function EstadisticasVuelos(){
                     <thead>
                         <tr>
                             <th>Aerolínea</th>
+                            <th>Origen</th>
+                            <th>Destino</th>
                             <th>Precio de la reserva</th>
                         </tr>
                     </thead>
@@ -46,14 +53,16 @@ export default function EstadisticasVuelos(){
                         {vuelos.map((datos)=>(
                                 <tr key={datos}>
                                     <td>{datos.aerolinea}</td>
+                                    <td>{datos.origen}</td>
+                                    <td>{datos.destino}</td>
                                     <td>{datos.precio}</td>
                                 </tr>
                         ))}
                     </tbody>
                 </table>
                 <h3>Elija la aerolinea en la que esta interesado</h3>
-                <input type="text" name="id" placeholder="Nombre de la aerolinea" onChange={comprobarCambiosAerolinea} required value={aerolinea}></input><br></br><br></br>
-                <button id="btnReserve" onClick={stats}>Reservar</button>
+                <input type="text" name="aerolinea" placeholder="Nombre de la aerolinea" onChange={comprobarCambiosAerolinea} required value={aerolinea}></input><br></br><br></br>
+                <button id="btnReserve" onClick={stats}>Calcular ingresos</button>
             </div>
         </main>
     )

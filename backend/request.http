@@ -30,13 +30,16 @@ Content-Type: application/json
 DELETE http://localhost:9000/api/qwe HTTP/1.1
 
 ###
-PUT http://localhost:9000/api/asd HTTP/1.1
+PUT http://localhost:9000/api/3 HTTP/1.1
 Content-Type: application/json
 
 {
-    "nombre": "asd",
-    "apellido": "zxc",
-    "email": "asd@gmail.com",
-    "numero": "123",
-    "contrasena": "asd"
+    "id": 3,
+    "aerolinea": "Flotanding",
+    "origen": "Arequipa",
+    "destino": "Cuzco",
+    "precio": 200,
+    "cantidad": 50,
+    "fechavuelo": null,
+    "horasalida": null
 }

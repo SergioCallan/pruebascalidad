@@ -27,13 +27,13 @@ export default function MostrarVuelos(){
             const aerolinea=vuelos[index].aerolinea
             const origen= vuelos[index].origen
             const destino= vuelos[index].destino
+            const precio= vuelos[index].precio
             const datareserva={
                 email: localStorage.getItem('data'),
                 aerolinea: aerolinea,
                 origen: origen,
                 destino: destino,
-                fechavuelo: null,
-                horasalida: null
+                precio: precio,
             }
             const url= 'http://localhost:9000/api/reserveflight'
             const response = await axios.post(url, datareserva);

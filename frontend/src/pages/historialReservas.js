@@ -30,19 +30,21 @@ export default function HistorialReservas(){
                 <table id="listahistorial">
                     <thead>
                         <tr>
-                            <th>Email</th>
+                            <th>ID</th>
+                            <th>Aerolinea</th>
                             <th>Origen</th>
                             <th>Destino</th>
-                            <th>Fecha del vuelo</th>
+                            <th>Precio</th>
                         </tr>
                     </thead>
                     <tbody>
                         {reservas.map((datos)=>(
                             <tr key={datos}>
-                                <td>{datos.email}</td>
+                                <td>{datos.id}</td>
+                                <td>{datos.aerolinea}</td>
                                 <td>{datos.origen}</td>
                                 <td>{datos.destino}</td>
-                                <td>{datos.fechavuelo}</td>
+                                <td>{datos.precio}</td>
                             </tr>
                         ))}
                     </tbody>
