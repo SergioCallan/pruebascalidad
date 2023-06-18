@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from "react"
 import axios from "axios"
-import {useNavigate} from "react-router-dom"
 
 export default function EstadisticasVuelos(){
-    const[aerolinea, setAerolinea]= useState('')
+    const[aerolineaBusqueda, setAerolineaBusqueda]= useState('')
     const [listavuelos, setListavuelos]=useState('')
-    const navigate= useNavigate()
+    const [vueloA, setvueloA]=useState('')
     const getVuelos= async()=>{
         const url='http://localhost:9000/api/showflights/'
         const {data}= await axios.get(url)
@@ -17,20 +16,22 @@ export default function EstadisticasVuelos(){
         })  
     })
     const comprobarCambiosAerolinea = (event) => {
-        setAerolinea(event.target.value)
+        setAerolineaBusqueda(event.target.value)
     }
     const vuelos= Object.values(listavuelos)
 
     const stats= async (e) =>{
         e.preventDefault();
-        const index= vuelos.findIndex(i=>i.aerolinea==aerolinea)
+        const index= vuelos.findIndex(i=>i.aerolinea==aerolineaBusqueda)
         const aerolineaA= vuelos[index].aerolinea
         let ganancias=0;
         try{
-            if(aerolinea===aerolineaA){
-                ganancias+= vuelos[index].precio
-            }
-            
+            const url= 'http://localhost:9000/api/calculate/'+aerolineaA+'#'
+            const {response} = await axios.get(url);
+            setvueloA(response)
+            const precios= Object.values(vueloA)
+            precios.forEach(function(a){ganancias+=a})
+            alert(ganancias)
         }catch(error){
             console.error('Error al enviar la solicitud:', error);
         }
@@ -61,7 +62,7 @@ export default function EstadisticasVuelos(){
                     </tbody>
                 </table>
                 <h3>Elija la aerolinea en la que esta interesado</h3>
-                <input type="text" name="aerolinea" placeholder="Nombre de la aerolinea" onChange={comprobarCambiosAerolinea} required value={aerolinea}></input><br></br><br></br>
+                <input type="text" name="aerolinea" placeholder="Nombre de la aerolinea" onChange={comprobarCambiosAerolinea} required value={aerolineaBusqueda}></input><br></br><br></br>
                 <button id="btnReserve" onClick={stats}>Calcular ingresos</button>
             </div>
         </main>
