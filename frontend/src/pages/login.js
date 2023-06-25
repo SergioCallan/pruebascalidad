@@ -20,7 +20,6 @@ export default function Login(){
     const guardarDatos = async (e) => {
         e.preventDefault();
         const formEmail=email
-        const formPassword= password
         try {
             const url1='http://localhost:9000/api/email/'+formEmail+'#'
             const response1 = await axios.get(url1);
