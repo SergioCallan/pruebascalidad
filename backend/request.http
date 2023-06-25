@@ -27,7 +27,7 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:9000/api/qwe HTTP/1.1
+DELETE http://localhost:9000/api/delete/Sergio HTTP/1.1
 
 ###
 PUT http://localhost:9000/api/3 HTTP/1.1

@@ -26,13 +26,21 @@ export default function Login(){
             const response1 = await axios.get(url1);
             console.log('Respuesta del servidor:', response1.data);
             if(response1.data.encontrado){
-                const url2='http://localhost:9000/api/password/'+formPassword+'#'
-                const response2 = await axios.get(url2);
-                console.log("Respuesta del servidor: ", response2.data);
-                if(response2.data.encontrado){
-                    alert("Inicio de sesion exitoso")
-                    localStorage.setItem("data", formEmail)
-                    navigate("/menuuser")
+                const url2='http://localhost:9000/api/password/'+formEmail+'#'
+                const response2 = await axios.get(url2)
+                const infouser= Object.values(response2.data)
+                if(response2.data!=null){
+                    const encryptedPassword= infouser[0].contrasena
+                    const url3='http://localhost:9000/api/desencrypt'
+                    const response3= await axios.post(url3, {
+                        encryptedPass: encryptedPassword,
+                        password: password,
+                    })
+                    if(response3.data.valido){
+                        alert("Inicio de sesion exitoso")
+                        localStorage.setItem("data", formEmail)
+                        navigate("/menuuser")
+                    }
                 }
             }
             setEmail('');

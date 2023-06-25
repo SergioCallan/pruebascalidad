@@ -1,9 +1,36 @@
 const express=require("express")
 const routes= express.Router()
+const bcrypt= require("bcrypt")
 
-//Admins
-
+//Encriptados
+routes.post("/encrypt", async (req, res)=>{
+    try{
+        const salt= bcrypt.genSaltSync(10)
+        const password= req.body.contrasena
+        const hashPassword= await bcrypt.hash(password, salt)
+        res.send(hashPassword)
+    }catch(error){
+        console.log("Error al encriptar la contraseña: ")
+        console.log(error)
+    }
+})
+routes.post('/desencrypt', (req, res)=>{
+    const {encryptedPass, password}= req.body
+    bcrypt.compare(password, encryptedPass, (err, results)=>{
+        if (err) {
+            console.error(err);
+            return res.status(500).send('Error al desencriptar la contraseña');
+          }
+      
+          if (results) {
+            res.json({valido: true});
+          } else {
+            return res.status(401).send('Contraseña incorrecta');
+          }
+    })
+})
 //Para los usuarios
+
 routes.get("/email/:email", (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
@@ -34,16 +61,16 @@ routes.get("/admemail/:email", (req, res)=>{
     })
 })
 
-routes.get("/password/:password", (req, res)=>{
+routes.get("/password/:email", (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
-        conn.query('SELECT * FROM users WHERE contrasena=?',[req.params.password], (err, results)=>{
+        conn.query('SELECT * FROM users WHERE email=?',[req.params.email], (err, results)=>{
             if(err) return res.send(err)
             if(results.length>0){
-                res.json({encontrado:true})
+                res.send(results)
             }
             else{
-                res.json({encontrado:false})
+                res.send(null)
             }
         })
     })
@@ -58,6 +85,17 @@ routes.post("/registeruser", (req, res)=>{
         })
     })
 })
+/*
+routes.delete("/delete/:nombre", (req, res)=>{
+    req.getConnection((err, conn)=>{
+        if(err) return res.send(err)
+        conn.query('DELETE FROM users WHERE nombre=?', [req.params.nombre], (err, rows)=>{
+            if(err) return res.send(err)
+            res.send("Usuario eliminado")
+        })
+    })
+})
+*/
 //Para los vuelos
 routes.post("/registerflights", (req, res)=>{
     req.getConnection((err, conn)=>{

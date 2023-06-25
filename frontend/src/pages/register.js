@@ -27,20 +27,31 @@ export default function Register(){
     const comprobarCambiosContrasena = (event) => {
         setPassword(event.target.value)
     }
+    
 
     const guardarDatos = async (e) => {
         e.preventDefault();
         try{
-            const formData={
+            const receiptdata={
                 nombre: name,
                 apellido: lastname,
                 email: email,
                 numero: mobilenumber,
                 contrasena: password
             }
+            const url0= 'http://localhost:9000/api/encrypt'
+            const response= await axios.post(url0, receiptdata)
+            const newpass= response.data
+            const formData={
+                nombre: name,
+                apellido: lastname,
+                email: email,
+                numero: mobilenumber,
+                contrasena: newpass
+            }
             const url1='http://localhost:9000/api/email/'+email+'#'
-            const response1 = await axios.get(url1, email);
-            console.log('Respuesta del servidor:', response1.data);
+            const response1 = await axios.get(url1, email)
+            console.log('Respuesta del servidor:', response1.data)
             if(!response1.data.encontrado){
                 const url2='http://localhost:9000/api/registeruser'
                 const response = await axios.post(url2, formData);

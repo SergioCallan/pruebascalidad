@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react"
+import React, {useEffect} from "react"
 import UserHeader from "../components/userHeader"
 import axios from "axios"
 import {useNavigate} from "react-router-dom"
@@ -23,6 +23,7 @@ export default function ReservaVuelos(){
         try{
             const url= 'http://localhost:9000/api/reserveflight'
             const response = await axios.post(url, reserva);
+            console.log(response)
             alert("Reserva realizada con exito.")
             localStorage.removeItem("aerolineaReserva")
             localStorage.removeItem("origenReserva")
