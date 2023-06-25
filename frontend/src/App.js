@@ -8,6 +8,7 @@ import MenuAdmin from "./pages/menuadmin"
 import RegistroVuelos from "./pages/registroVuelos"
 import EliminarVuelo from "./pages/eliminarVuelo"
 import MostrarVuelos from "./pages/mostrarVuelos"
+import ReservaVuelos from "./pages/reservaVuelos"
 import HistorialReservas from "./pages/historialReservas"
 import EstadisticasVuelos from "./pages/estadisticasVuelos"
 
@@ -24,6 +25,7 @@ function App() {
                 <Route path="/registrovuelos" element={<RegistroVuelos/>}/>
                 <Route path="/eliminarvuelo" element={<EliminarVuelo/>}/>
                 <Route path="/mostrarvuelos" element={<MostrarVuelos/>}/>
+                <Route path="/reservavuelos" element={<ReservaVuelos/>}/>
                 <Route path="/reservas" element={<HistorialReservas/>}/>
                 <Route path="/estadisticas" element={<EstadisticasVuelos/>}/>
             </Routes>

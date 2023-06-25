@@ -1,11 +1,22 @@
-import React, {Component} from "react"
-import {Link} from "react-router-dom"
+import React, {useEffect} from "react"
+import {Link, useNavigate} from "react-router-dom"
+import UserHeader from "../components/userHeader"
+import "./Estilos/menuuser.css"
 
-class MenuUser extends Component{
-    render(){
-        return(
-            <body>
-                <main>
+export default function MenuUser(){
+    const navigate= useNavigate()
+    useEffect(()=>{
+        const userEmail= localStorage.getItem("data")
+        if(userEmail==null){
+            navigate('/mainpage')
+        }
+    })
+
+    return(
+        <body>
+            <main>
+                <html>
+                    <UserHeader/>
                     <div className="contenedor_todo">
                         <h1>Bienvenido a FlyEasy, web para la reserva de vuelos</h1>
                         <h2>¿En qué podemos ayudarte hoy?</h2>
@@ -18,10 +29,8 @@ class MenuUser extends Component{
                             <Link to="/reservas">Ver historial de reservas</Link>
                         </div>
                     </div>
-                </main>
-            </body>
-        )
-    }
+                </html>
+            </main>
+        </body>
+    )
 }
-
-export default MenuUser
