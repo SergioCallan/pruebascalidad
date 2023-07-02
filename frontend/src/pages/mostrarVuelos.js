@@ -14,12 +14,13 @@ export default function MostrarVuelos(){
             navigate('/mainpage')
         }
     })
+
     const getVuelos= async()=>{
-        
         const url='http://localhost:9000/api/showflights/'
         const {data}= await axios.get(url)
         setListavuelos(data)
     }
+    
     useEffect(()=>{
         getVuelos().catch((error)=>{
             console.log(error)
@@ -46,11 +47,15 @@ export default function MostrarVuelos(){
             console.error('Error al enviar la solicitud:', error);
         }
     }
+    const Atras=()=>{
+        navigate("/menuuser")
+    }
     
     return (
         <main>
             <html>
                 <UserHeader/>
+                <button onClick={Atras}>Atras</button>
                 <h1>¿Qué vuelo elegiré hoy?</h1>
                 <h3>Vuelos disponibles para su reserva</h3>
                 <div className="mostrarVuelos">

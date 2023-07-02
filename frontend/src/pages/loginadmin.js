@@ -21,6 +21,7 @@ export default function Login(){
         const formPassword= password
         if(formEmail==="admin@gmail.com" && formPassword==="admin123"){
             alert("Bienvenido, administrador")
+            localStorage.setItem("admin", formEmail)
             navigate("/menuadmin")
         }
         else{

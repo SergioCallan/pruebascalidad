@@ -1,9 +1,9 @@
 import React, {useEffect} from "react"
+import { useNavigate } from "react-router-dom"
 import UserHeader from "../components/userHeader"
 import axios from "axios"
-import {useNavigate} from "react-router-dom"
 
-export default function ReservaVuelos(){
+export default function Historial(){
     const navigate= useNavigate()
     useEffect(()=>{
         const userEmail= localStorage.getItem("data")
@@ -19,23 +19,11 @@ export default function ReservaVuelos(){
         destino: localStorage.getItem("destinoReserva"),
         precio: localStorage.getItem("precioReserva")
     }
-    const ReservarVuelo= async()=>{
-        try{
-            const url= 'http://localhost:9000/api/reserveflight'
-            const response = await axios.post(url, reserva);
-            console.log(response)
-            alert("Reserva realizada con exito.")
-            localStorage.removeItem("aerolineaReserva")
-            localStorage.removeItem("origenReserva")
-            localStorage.removeItem("destinoReserva")
-            localStorage.removeItem("precioReserva")
-            navigate("/menuuser")
-        }catch(error){
-            alert("Error al realizar la reserva.")
-            console.log(error)
-        }
-    }
+    const id= localStorage.getItem("idReserva")
     const CancelarReserva= async()=>{
+        const url= "http://localhost:9000/api/cancelar/"+id+"#"
+        const response= await axios.delete(url)
+        localStorage.removeItem("idReserva")
         localStorage.removeItem("aerolineaReserva")
         localStorage.removeItem("origenReserva")
         localStorage.removeItem("destinoReserva")
@@ -44,20 +32,22 @@ export default function ReservaVuelos(){
         navigate("/menuuser")
     }
 
+    const Atras=()=>{
+        navigate("/reservas")
+    }
+
     return(
         <main>
             <html>
                 <UserHeader/>
-                <h3>Reserva incluida en el carrito</h3>
-                <h3>Confirme los datos antes de concretar la reserva: </h3>
+                <button onClick={Atras}>Atras</button>
+                <h3>Datos de la reserva seleccionada</h3>
                 <div className="DatosdelaReserva">
                     <h3>Aerolinea: {reserva.aerolinea}</h3>
-                    <h3>Origen: {reserva.origen}</h3>
+                    <h3>Lugar de partida: {reserva.origen}</h3>
                     <h3>Destino: {reserva.destino}</h3>
                     <h3>Precio: {reserva.precio}</h3>
                 </div>
-                <h3>En caso de tener todo en orden, confirmar la compra</h3>
-                <button id="Reservar" onClick={ReservarVuelo}>Reservar</button>
                 <h3>Si desea cancelar la operación, click aquí</h3>
                 <button id="Cancelar" onClick={CancelarReserva}>Cancelar</button>
             </html>

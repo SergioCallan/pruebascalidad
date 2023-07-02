@@ -37,10 +37,10 @@ routes.get("/email/:email", (req, res)=>{
         conn.query('SELECT * FROM users WHERE email=?',[req.params.email], (err, results)=>{
             if(err) return res.send(err)
             if(results.length>0){
-                res.json({encontrado:true})
+                res.send(results)
             }
             else{
-                res.json({encontrado:false})
+                res.send(null)
             }
         })
     })
@@ -85,17 +85,39 @@ routes.post("/registeruser", (req, res)=>{
         })
     })
 })
-/*
-routes.delete("/delete/:nombre", (req, res)=>{
+
+routes.delete("/delete/:email", (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
-        conn.query('DELETE FROM users WHERE nombre=?', [req.params.nombre], (err, rows)=>{
+        conn.query('DELETE FROM users WHERE email=?', [req.params.email], (err, rows)=>{
             if(err) return res.send(err)
             res.send("Usuario eliminado")
         })
     })
 })
-*/
+
+//Para los admin
+
+routes.get("/aerolinea/:aerolinea", (req, res)=>{
+    req.getConnection((err, conn)=>{
+        if(err) return res.send(err)
+        conn.query('SELECT * FROM vuelos WHERE aerolinea=?', [req.params.aerolinea], (err, rows)=>{
+            if(err) return res.send(err)
+            res.send(rows)
+        })
+    })
+})
+
+routes.get("/reservas/:aerolinea", (req, res)=>{
+    req.getConnection((err, conn)=>{
+        if(err) return res.send(err)
+        conn.query('SELECT * FROM reservas WHERE aerolinea=?', [req.params.aerolinea], (err, rows)=>{
+            if(err) return res.send(err)
+            res.send(rows)
+        })
+    })
+})
+
 //Para los vuelos
 routes.post("/registerflights", (req, res)=>{
     req.getConnection((err, conn)=>{
@@ -117,15 +139,6 @@ routes.get("/showflights", (req, res)=>{
     })
 })
 
-routes.get("/calculate/:aerolinea", (req, res)=>{
-    req.getConnection((err, conn)=>{
-        if(err) return res.send(err)
-        conn.query('SELECT precio FROM vuelos where aerolinea=?', [req.params.aerolinea], (err, results)=>{
-            if(err) return res.send(err)
-            res.send(results)
-        })
-    })
-})
 
 routes.delete("/deleteflight/:id", (req, res)=>{
     req.getConnection((err, conn)=>{
@@ -155,6 +168,26 @@ routes.get("/reservasuser/:email", (req, res)=>{
         conn.query('SELECT * FROM reservas WHERE email= ?', [req.params.email], (err, rows)=>{
             if(err) return res.send(err)
             res.send(rows)
+        })
+    })
+})
+
+routes.delete("/cancelar/:id", (req, res)=>{
+    req.getConnection((err, conn)=>{
+        if(err) return res.send(err)
+        conn.query('DELETE FROM reservas WHERE id= ?', [req.params.id], (err, results)=>{
+            if(err) return res.send(err)
+            res.send("Reserva cancelada")
+        })
+    })
+})
+
+routes.delete("/borrarreservas/:email", (req, res)=>{
+    req.getConnection((err, conn)=>{
+        if(err) return res.send(err)
+        conn.query('DELETE FROM reservas WHERE email= ?', [req.params.email], (err, results)=>{
+            if(err) return res.send(err)
+            res.send("Reserva cancelada")
         })
     })
 })

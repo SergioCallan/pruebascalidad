@@ -1,9 +1,10 @@
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import axios from "axios"
-import {Link} from "react-router-dom"
+import {useNavigate} from "react-router-dom"
 import "./Estilos/registroVuelo.css"
 //Importas css
 export default function RegistroVuelo(){
+    const navigate= useNavigate()
     const [aerolinea, setAerolinea]= useState('')
     const [origen, setOrigen]= useState('')
     const [destino, setDestino]= useState('')
@@ -33,6 +34,13 @@ export default function RegistroVuelo(){
     const comprobarCambiosHorasalida = (event) => {
         setHorasalida(event.target.value)
     }
+
+    useEffect(()=>{
+        const adminEmail= localStorage.getItem("admin")
+        if(adminEmail==null){
+            navigate('/loginadmin')
+        }
+    })
     
     const guardarDatos= async (e)=>{
         e.preventDefault();
@@ -51,34 +59,49 @@ export default function RegistroVuelo(){
             const {response}= await axios.post(url, formData)
             console.log(response)
             alert("Registro exitoso")
+            setAerolinea('')
+            setCantidad('')
+            setDestino('')
+            setFechavuelo('')
+            setHorasalida('')
+            setOrigen('')
+            setPrecio('')
         }catch(error){
             console.error('Error al enviar la solicitud:', error);
         }
     };
 
+    const Atras=()=>{
+        navigate("/menuadmin")
+    }
+
     return(
-        <form onSubmit={guardarDatos}>
-        <Link to="/eliminarvuelo">Eliminar un Vuelo</Link>
-        <h1>Registro de Vuelo</h1>
-        <div class="contenedor-formulario">
-            <div class="grupo-formulario">
-                <label for="aerolinea">Nombre de la Aerolínea:</label>
-                <input type="text" name="aerolinea" onChange={comprobarCambiosAerolinea} required value={aerolinea}></input><br></br>
-                <label for="origen">Ingrese el punto de partida:</label>
-                <input type="text" id="origen" name="origen" onChange={comprobarCambiosOrigen} required value={origen}></input><br></br>
-                <label for="origen">Ingrese el punto de llegada:</label>
-                <input type="text" id="destino" name="destino" onChange={comprobarCambiosDestino} required value={destino}></input><br></br>
-                <label for="precio">Precio:</label>
-                <input type="number" id="precio" name="precio" onChange={comprobarCambiosPrecio} required value={precio}></input><br></br>
-                <label for="cantidad">Cantidad:</label>
-                <input type="number" id="cantidad" name="cantidad" onChange={comprobarCambiosCantidad} required value={cantidad}></input><br></br>
-                <label for="fechaVuelo">Fecha de Vuelo:</label>
-                <input type="date" id="fechaVuelo" name="fechaVuelo" onChange={comprobarCambiosFechavuelo} required value={fechavuelo}></input><br></br>
-                <label for="horaSalida">Hora de Salida:</label>
-                <input type="time" id="horaSalida" name="horaSalida" onChange={comprobarCambiosHorasalida} required value={horasalida}></input><br></br>
-            </div>
-            <button id='btnSave'>Registrar Vuelo</button>
-        </div>
-    </form>
+        <main>
+            <html>
+                <button onClick={Atras}>Retornar</button>
+                <form onSubmit={guardarDatos}>
+                    <h1>Registro de Vuelo</h1>
+                    <div class="contenedor-formulario">
+                        <div class="grupo-formulario">
+                            <label for="aerolinea">Nombre de la Aerolínea:</label>
+                            <input type="text" name="aerolinea" onChange={comprobarCambiosAerolinea} required value={aerolinea}></input><br></br>
+                            <label for="origen">Ingrese el punto de partida:</label>
+                            <input type="text" id="origen" name="origen" onChange={comprobarCambiosOrigen} required value={origen}></input><br></br>
+                            <label for="origen">Ingrese el punto de llegada:</label>
+                            <input type="text" id="destino" name="destino" onChange={comprobarCambiosDestino} required value={destino}></input><br></br>
+                            <label for="precio">Precio:</label>
+                            <input type="number" id="precio" name="precio" onChange={comprobarCambiosPrecio} required value={precio}></input><br></br>
+                            <label for="cantidad">Cantidad:</label>
+                            <input type="number" id="cantidad" name="cantidad" onChange={comprobarCambiosCantidad} required value={cantidad}></input><br></br>
+                            <label for="fechaVuelo">Fecha de Vuelo:</label>
+                            <input type="date" id="fechaVuelo" name="fechaVuelo" onChange={comprobarCambiosFechavuelo} required value={fechavuelo}></input><br></br>
+                            <label for="horaSalida">Hora de Salida:</label>
+                            <input type="time" id="horaSalida" name="horaSalida" onChange={comprobarCambiosHorasalida} required value={horasalida}></input><br></br>
+                        </div>
+                        <button id='btnSave'>Registrar Vuelo</button>
+                    </div>
+                </form>
+            </html>
+        </main>
     )
 }

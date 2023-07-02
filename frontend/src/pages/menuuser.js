@@ -28,6 +28,10 @@ export default function MenuUser(){
                                 <h3> Si quieres observar, confirmar o modificar tus reservas, haz click aquí</h3>
                             <Link to="/reservas">Ver historial de reservas</Link>
                         </div>
+                        <div className="opciones">
+                                <h3> Para actualizar datos de la cuenta o eliminarla, haz click aqui</h3>
+                            <Link to="/opciones">Opciones de la cuenta</Link>
+                        </div>
                     </div>
                 </html>
             </main>

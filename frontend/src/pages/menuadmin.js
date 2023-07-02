@@ -1,11 +1,25 @@
-import React, {Component} from "react"
-import {Link} from "react-router-dom"
+import React, {useEffect} from "react"
+import {Link, useNavigate} from "react-router-dom"
 
-class MenuAdmin extends Component{
-    render(){
-        return(
-            <body>
-                <main>
+export default function MenuAdmin(){
+    const navigate= useNavigate()
+    useEffect(()=>{
+        const adminEmail= localStorage.getItem("admin")
+        if(adminEmail==null){
+            navigate('/loginadmin')
+        }
+    })
+
+    const Salir=()=>{
+        localStorage.clear()
+        alert("Cerrando sesion")
+        navigate("/menuadmin")
+    }
+    return(
+        <body>
+            <main>
+                <html>
+                    <button onClick={Salir}>Salir</button>
                     <div className="contenedor_todo">
                         <h1>Bienvenido a FlyEasy, administrador</h1>
                         <h3>¿Qué realizará hoy?</h3>
@@ -22,10 +36,8 @@ class MenuAdmin extends Component{
                             <Link to="/estadisticas">Mostrar Estadisticas</Link>
                         </div>
                     </div>
-                </main>
-            </body>
-        )
-    }
+                </html>
+            </main>
+        </body>
+    )
 }
-
-export default MenuAdmin

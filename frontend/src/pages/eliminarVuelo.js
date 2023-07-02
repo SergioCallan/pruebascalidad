@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from "react"
 import axios from "axios"
-import {Link} from "react-router-dom"
+import {useNavigate} from "react-router-dom"
 //Importas css
 
 export default function EliminarVuelo(){
+    const navigate= useNavigate()
     const [id, setID]= useState(null)
     const [listavuelos, setListavuelos]=useState('')
     const getVuelos= async()=>{    
@@ -17,7 +18,12 @@ export default function EliminarVuelo(){
             console.log(error)
         })
     })
-    
+    useEffect(()=>{
+        const adminEmail= localStorage.getItem("admin")
+        if(adminEmail==null){
+            navigate('/loginadmin')
+        }
+    })
     const comprobarCambiosID = (event) => {
         setID(event.target.value)
     }
@@ -30,9 +36,13 @@ export default function EliminarVuelo(){
     }
     const vuelos= Object.values(listavuelos)
 
+    const Atras=()=>{
+        navigate("/menuadmin")
+    }
+
     return(
         <body>
-            <Link to="/registrovuelos">Registrar un Vuelo</Link>
+            <button onClick={Atras}>Retornar</button>
             <h1>Vuelos Registrados</h1>
             <table id="listaVuelos">
                     <thead>

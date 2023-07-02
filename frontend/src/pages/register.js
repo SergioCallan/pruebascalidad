@@ -51,7 +51,6 @@ export default function Register(){
             }
             const url1='http://localhost:9000/api/email/'+email+'#'
             const response1 = await axios.get(url1, email)
-            console.log('Respuesta del servidor:', response1.data)
             if(!response1.data.encontrado){
                 const url2='http://localhost:9000/api/registeruser'
                 const response = await axios.post(url2, formData);

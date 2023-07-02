@@ -21,30 +21,28 @@ export default function Login(){
         e.preventDefault();
         const formEmail=email
         try {
-            const url1='http://localhost:9000/api/email/'+formEmail+'#'
-            const response1 = await axios.get(url1);
-            console.log('Respuesta del servidor:', response1.data);
-            if(response1.data.encontrado){
-                const url2='http://localhost:9000/api/password/'+formEmail+'#'
-                const response2 = await axios.get(url2)
-                const infouser= Object.values(response2.data)
-                if(response2.data!=null){
-                    const encryptedPassword= infouser[0].contrasena
-                    const url3='http://localhost:9000/api/desencrypt'
-                    const response3= await axios.post(url3, {
-                        encryptedPass: encryptedPassword,
-                        password: password,
-                    })
-                    if(response3.data.valido){
-                        alert("Inicio de sesion exitoso")
-                        localStorage.setItem("data", formEmail)
-                        navigate("/menuuser")
-                    }
+            const url1='http://localhost:9000/api/password/'+formEmail+'#'
+            const response1 = await axios.get(url1)
+            if(response1.data!=null){
+                const infouser= Object.values(response1.data)
+                const encryptedPassword= infouser[0].contrasena
+                const url2='http://localhost:9000/api/desencrypt'
+                const response2= await axios.post(url2, {
+                    encryptedPass: encryptedPassword,
+                    password: password,
+                })
+                if(response2.data.valido){
+                    alert("Inicio de sesion exitoso")
+                    localStorage.setItem("data", formEmail)
+                    navigate("/menuuser")
                 }
+                setEmail('');
+                setPassword('');
             }
+          } catch (error) {
+            alert("Correo o contraseña invalidos, intente de nuevo.")
             setEmail('');
             setPassword('');
-          } catch (error) {
             console.error('Error al enviar la solicitud:', error);
           }
         
