@@ -23,6 +23,7 @@ export default function Historial(){
     const CancelarReserva= async()=>{
         const url= "http://localhost:9000/api/cancelar/"+id+"#"
         const response= await axios.delete(url)
+        console.log(response)
         localStorage.removeItem("idReserva")
         localStorage.removeItem("aerolineaReserva")
         localStorage.removeItem("origenReserva")
